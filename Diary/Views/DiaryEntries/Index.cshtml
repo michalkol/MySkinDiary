@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart.js Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="chart1" width="400" height="200" style="border: 1px solid black;"></canvas>
+    <canvas id="chart2" width="400" height="200" style="border: 1px solid black;"></canvas>
+    <script>
+        // První graf
+        const ctx1 = document.getElementById('chart1').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B', 'C'],
+                datasets: [{
+                    label: 'Dataset 1',
+                    data: [10, 20, 30],
+                    backgroundColor: ['red', 'green', 'blue']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Druhý graf
+        const ctx2 = document.getElementById('chart2').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['X', 'Y', 'Z'],
+                datasets: [{
+                    label: 'Dataset 2',
+                    data: [5, 15, 25],
+                    borderColor: 'purple',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+</body>
+</html>

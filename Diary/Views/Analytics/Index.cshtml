@@ -1,0 +1,47 @@
+﻿@using Diary.DTO;
+@model IEnumerable<RecordDtoApi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			@* <a class=" btn btn-primary" asp-controller="RecordEntries" asp-action="Create">
+				Create new Record
+			</a> * *@
+
+		</div>
+		<div class="col-6 text-end">
+			<h2>Analytics</h2>
+		</div>
+		<div class="col-6 text-wrap">
+			<p>
+				This page is dedicated to represent  all of your records in graphical way. <strong>
+					Note: All shown
+					data are only for development purpose and don´t represent any meaningful value.
+				</strong>
+			</p>
+		</div>
+	</div>
+</div>
+<div> 
+	 <h2>Record Entries Chart</h2>
+		<div id="chart-container">
+		<canvas id="recordEntriesChart" width="400" height="200"></canvas>
+		</div>
+</div>
+
+
+<style>
+	/* Styl pro kontejner grafu */
+	#chart-container {
+		width: 80%; /* Šířka kontejneru */
+		max-width: 1600px; /* Maximální šířka */
+		height: 800px; /* Fixní výška */
+		margin: 0 auto; /* Centrovat na stránce */
+		position: relative;
+	}
+</style> 
+

@@ -1,0 +1,51 @@
+﻿@using Diary.DTO;
+@model IEnumerable<RecordDTO>
+<script src="https://cdn.jsdelivr.net/npm/table-sort-js/table-sort.min.js"></script>
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			<a class=" btn btn-primary" asp-controller="RecordEntries" asp-action="Create">
+				Create new Record
+			</a>
+
+		</div>
+		<div class="col-6 text-end">
+			<h2>Records</h2>
+		</div>
+		<div class="col-6 text-wrap" >
+			<p>
+				This page is dedicated to manage all of your record entries. Your overall
+				goal is to achieve maximal consistency of all given data. <strong>Note: All shown 
+				data are only for development purpose and don´t represent any meaningful value.</strong>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="table-responsive">
+	<table class="table table-striped table-hover table-sort">
+		<thead>
+			<th class="dates-dmy-sort">Date</th>
+			<th>Physical state</th>
+			<th>Mental state</th>
+			<th>Skin state</th>
+			<th>Photo</th>
+		</thead>
+			<tbody>
+				@foreach (var entry in Model)
+				{
+					<tr>
+						<td>@entry.Created.ToString("dd.MM.yyyy")</td>
+						<td>@entry.PhysicalDesc</td>
+						<td>@entry.MentalDesc</td>
+						<td>@entry.SkinStateDesc</td>
+						<td>@entry.Photo</td>
+
+						<td><a asp-controller="RecordEntries" asp-action="Edit" asp-route-id="@entry.Id" class="btn btn-primary btn-sm">Edit </a></td>
+						<td><a asp-controller="RecordEntries" asp-action="Delete" asp-route-id="@entry.Id" class="btn btn-danger btn-sm">Delete </a></td>
+					</tr>
+				}
+			</tbody>
+
+	</table>
+
+</div>

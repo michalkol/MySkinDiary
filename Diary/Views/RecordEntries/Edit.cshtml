@@ -1,0 +1,103 @@
+﻿@using Diary.DTO;
+@model RecordDTO
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			<div class ="card">
+				<div class="card-header bg-primary text-white">
+					<h2>Edit existing health record</h2>
+				</div>
+				<div class=" card-body">
+					<form asp-action="Edit" method="post">
+
+						<div class=" form-group mb-3">
+							<label asp-for="Created" class="form-label">Date</label>
+							<input asp-for="Created" row="5" class="form-control" type="date" />
+							<span asp-validation-for="Created" class="text-secondary"></span>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label for="PhysicalState" class="form-label">Physical state</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="PhysicalStateRange">
+							<span asp-validation-for="PhysicalState" class="text-secondary"></span>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label asp-for="PhysicalDesc" class="form-label">Describe your today´s physical conditions</label>
+							<input asp-for="PhysicalDesc" class="form-control" id="PhysicalDesc"
+								   placeholder="Enter text" autocomplete="off" />
+							<span asp-validation-for="PhysicalDesc" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="MentalState" class="form-label">Mental State</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="MentalStateRange">
+							<span asp-validation-for="MentalState" class="text-secondary"></span>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label asp-for="MentalDesc" class="form-label">Describe your today´s mental conditions</label>
+							<input asp-for="MentalDesc" class="form-control" id="PhysicalDesc"
+								   placeholder="Enter text" autocomplete="off" />
+							<span asp-validation-for="MentalDesc" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="SkinState1" class="form-label">Skin redness</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="SkinState1Range">
+							<span asp-validation-for="SkinState1" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="SkinState2" class="form-label">Skin itchiness</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="SkinState2Range">
+							<span asp-validation-for="SkinState2" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="SkinState3" class="form-label">Skin swelling</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="SkinState3Range">
+							<span asp-validation-for="SkinState3" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="SkinState4" class="form-label">Skin dryness</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="SkinState4Range">
+							<span asp-validation-for="SkinState4" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="SkinState5" class="form-label">Skin wetting</label>
+							<input type="range" class="form-range" min="1" max="5" step="1" id="SkinState5Range">
+							<span asp-validation-for="SkinState5" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3">
+							<label asp-for="SkinStateDesc" class="form-label">Describe your today´s skin conditions</label>
+							<input asp-for="SkinStateDesc" class="form-control" id="SkinStateDesc"
+								   placeholder="Enter text" autocomplete="off" />
+							<span asp-validation-for="SkinStateDesc" class="text-secondary"></span>
+						</div>
+
+						<div class="input-group mb-3">
+						  <label class="input-group-text" for="inputGroupFile01">Upload</label>
+						  <input asp-for="Photo" class="form-control" id="inputGroupFile01">
+						  <span asp-validation-for="Photo"></span>
+						</div>
+
+						
+						<div class="d-flex justify-content-between">
+							<button type="submit" class="btn btn-primary">Edit</button>
+							<a asp-controller="RecordEntries" asp-action="Index" class="btn btn-secondary">Cancel</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
