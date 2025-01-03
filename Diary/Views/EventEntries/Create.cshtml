@@ -1,0 +1,64 @@
+﻿@using Diary.DTO;
+@model EventDTO
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			<div class ="card">
+				<div class="card-header bg-primary text-white">
+					<h2>Create new event record</h2>
+				</div>
+				<div class=" card-body">
+					<form asp-action="Create" method="post" enctype="multipart/form-data">
+
+						<div class=" form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="Start" class="form-label">Start Date</label> 
+							<input asp-for="Start" row="5" class="form-control" type="date" />
+							<span asp-validation-for="Start" class="text-secondary"></span>
+						</div>
+
+						<div class=" form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="End" class="form-label">End Date</label> 
+							<input asp-for="End" row="5" class="form-control" type="date" />
+							<span asp-validation-for="End" class="text-secondary"></span>
+						</div>
+						
+						<input type="hidden" asp-for="Latitude" id="Latitude" />
+						<input type="hidden" asp-for="Longitude" id="Longitude" />
+						
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="Location" class="form-label">Location</label>
+							<input asp-for="Location" class="form-control" id="Location"
+								   placeholder="Enter event location" autocomplete="off" />
+							<span asp-validation-for="Location" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="Description" class="form-label">Description</label>
+							<input asp-for="Description" class="form-control" id="Description"
+								   placeholder="Enter text" autocomplete="off" />
+							<span asp-validation-for="Description" class="text-secondary"></span>
+						</div>
+
+						<div class="input-group mb-3" style="margin: 10px; text-align: center;">
+							<label for="inputGroupFile03" class="form-label">Upload event´s photo</label>
+							<div class="input-group">
+								<input type="file" name="photoFile" asp-for="Photo" class="form-control" id="inputGroupFile03">
+							</div>
+							<span asp-validation-for="Photo"></span>
+						</div>
+
+						<div class="d-flex justify-content-between" style="margin: 10px">
+							<button type="submit" class="btn btn-primary">Create</button>
+							<a asp-controller="EventEntries" asp-action="Index" class="btn btn-secondary">Cancel</a>
+						</div>
+					</form>
+				</div> 
+			</div>
+		</div>
+	</div>
+</div
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial"/>
+}

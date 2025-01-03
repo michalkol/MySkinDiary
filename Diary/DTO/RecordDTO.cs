@@ -5,8 +5,10 @@ namespace Diary.DTO
     public class RecordDTO
     {
         public int Id { get; set; }
-        
-        public int PhysicalState { get; set; }
+        [Required]
+		public string UserId { get; set; }
+
+		public int PhysicalState { get; set; }
 
         public string PhysicalDesc { get; set; } = string.Empty;
         

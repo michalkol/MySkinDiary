@@ -16,7 +16,7 @@ namespace Diary.Controllers
             _logger = logger;
             this.userManager = userManager;
         }
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
             return View();

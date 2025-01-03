@@ -1,0 +1,271 @@
+﻿@using Diary.DTO;
+@model IEnumerable<EventDTO>
+
+<script src="https://cdn.jsdelivr.net/npm/table-sort-js/table-sort.min.js"></script>
+
+<!-- Header section -->
+<div class="row pt-4 d-flex align-items-center mb-4">
+	<div class="col-md-6">
+		<a class="btn btn-primary" asp-controller="EventEntries" asp-action="Create">
+			Create New Event
+		</a>
+	</div>
+	<div class="col-md-6 text-end">
+		<h2 class="text-primary">Records</h2>
+	</div>
+</div>
+
+<!-- Info section -->
+<div class="alert alert-info" role="alert">
+	<p>
+		This page is dedicated to managing all of your event record entries. All existing events appears in the table on the right side, as well as in the
+		calendar on the right side. <strong>You can also use panel for searching and filtering records.</strong>
+		<strong>Note: All shown data are only for development purposes and don’t represent any meaningful value.</strong>
+	</p>
+</div>
+
+<!-- Search and filters -->
+
+
+
+<div class="row mb-4">
+</div>
+
+
+<div class="row mb-4">
+	<!-- Calendar -->
+	<div class="col-6">
+		<div id="calendar" class="card chart-card">
+			<div class="card-body">
+				<p>Calendar placeholder</p>
+			</div>
+		</div>
+	</div>
+	<!-- Table section -->
+	<div class="col-6">
+		<div class="card mb-4">
+			<div class="card-body">
+				<div>
+					<form method="get" asp-action="Search" asp-controller="EventEntries">
+						<label for="searchQuery" class="form-label">Search:</label>
+						<div class="input-group">
+							<input type="text" name="searchQuery" placeholder="Search..." class="form-control" value="@ViewData["SearchQuery"]" />
+							<button type="submit" class="btn btn-primary">Search</button>
+						</div>
+					</form>
+
+					<label for="startDate" class="form-label">Start Date:</label>
+					<input type="date" id="startDate" class="form-control mb-2" />
+
+					<label for="endDate" class="form-label">End Date:</label>
+					<input type="date" id="endDate" class="form-control mb-2" />
+
+					<button id="updateChart" class="btn btn-primary">Update Table</button>
+				</div>
+			</div>
+		</div>
+		<div class="card table-card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="example" class="table table-striped table-hover table-sort">
+						<thead>
+							<tr>
+								<th data-sort-order="desc">Start Date</th>
+								<th data-sort-order="desc">End Date</th>
+								<th>Location</th>
+								<th>Description</th>
+								<th>Photo</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var entry in Model)
+							{
+								<tr data-date="@entry.Start.ToString("yyyy-MM-dd")">
+									<td>@entry.Start.ToString("dd.MM.yyyy")</td>
+									<td>@entry.End.ToString("dd.MM.yyyy")</td>
+									<td>@entry.Location</td>
+									<td>@entry.Description</td>
+									<td>
+										@if (entry.Photo != null && entry.Photo.Length > 0)
+										{
+											<img src="data:image/jpeg;base64,@Convert.ToBase64String(entry.Photo)" alt="Photo" class="photo-thumbnail" style="max-width: 100px; height: auto; border-radius: 8px;" />
+										}
+										else
+										{
+											<span class="text-muted">No photo available</span>
+										}
+									</td>
+									<td>
+										<a asp-controller="EventEntries" asp-action="Edit" asp-route-id="@entry.Id" class="btn btn-primary btn-sm me-1">Edit</a>
+										<a asp-controller="EventEntries" asp-action="Detail" asp-route-id="@entry.Id" class="btn btn-secondary btn-sm me-1">Detail</a>
+										<a asp-controller="EventEntries" asp-action="Delete" asp-route-id="@entry.Id" class="btn btn-danger btn-sm">Delete</a>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+			  var calendarEl = document.getElementById('calendar');
+			  var calendar = new FullCalendar.Calendar(calendarEl, {
+					  initialView: 'dayGridMonth',
+						themeSystem: 'bootstrap5',
+								 events: '/EventEntries/GetEvents',
+								 headerToolbar: {
+											  left: 'prev,next',
+											  center: 'title',
+											  right: 'timeGridWeek,dayGridMonth,multiMonthYear' // user can switch between the two
+
+											 },
+							    eventClick: function(info) {
+								// Předpokládáme, že každá událost má unikátní id (event.id)
+								var eventId = info.event.id;
+								// Přejděte na stránku s detaily události
+								window.location.href = '/EventEntries/Detail/' + eventId;
+								}
+								});
+						calendar.render();
+						 });
+</script>
+<script>
+	document.getElementById('updateChart').addEventListener('click', () => {
+		   const startDate = document.getElementById('startDate').value;
+		   const endDate = document.getElementById('endDate').value;
+
+		   if (startDate && endDate) {
+				  const rows = document.querySelectorAll('table tbody tr');
+				  rows.forEach(row => {
+						 const rowDate = row.getAttribute('data-date');
+						 if (rowDate) {
+								const rowDateObj = new Date(rowDate);
+								const startDateObj = new Date(startDate);
+								const endDateObj = new Date(endDate);
+
+								if (rowDateObj >= startDateObj && rowDateObj <= endDateObj) {
+									   row.style.display = '';
+								} else {
+									   row.style.display = 'none';
+								}
+						 }
+				  });
+		   } else {
+				  alert('Please select both start and end dates.');
+		   }
+	});
+</script>
+
+
+@* @using Diary.DTO;
+@model IEnumerable<EventDTO>
+<script src="https://cdn.jsdelivr.net/npm/table-sort-js/table-sort.min.js"></script>
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			<a class=" btn btn-primary" asp-controller="EventEntries" asp-action="Create">
+				Create new Event
+			</a>
+
+		</div>
+		<div class="col-6 text-end">
+			<h2>Records</h2>
+		</div>
+		<div class="col-6 text-wrap" >
+			<p>
+				This page is dedicated to manage all of your event record entries. <strong>Note: All shown
+				data are only for development purpose and don´t represent any meaningful value.</strong>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+<form method="get" asp-action="Search" asp-controller="EventEntries">
+	<input type="text" name="searchQuery" placeholder="Search..." class="form-control" value="@ViewData["SearchQuery"]" />
+	<button type="submit" class="btn btn-primary">Search</button>
+</form>
+<div id='calendar'></div>
+<div>
+	<label for="startDate">Start Date:</label>
+	<input type="date" id="startDate" />
+
+	<label for="endDate">End Date:</label>
+	<input type="date" id="endDate" />
+
+	<button id="updateChart">Update table</button>
+</div>
+<div class="table-responsive">
+	<table id="example" class="table table-striped table-hover table-sort">
+			<thead>
+				<th data-sort-order="desc">Start date</th>
+				<th data-sort-order="desc">End date</th>
+				<th>Location</th>
+				<th>Description</th>
+				<th>Photo</th>
+			</thead>
+			<tbody>
+				@foreach (var entry in Model)
+				{
+				<tr data-date="@entry.Start.ToString("yyyy-MM-dd")">
+						<td>@entry.Start.ToString("dd.MM.yyyy")</td>
+						<td>@entry.End.ToString("dd.MM.yyyy")</td>
+						<td>@entry.Location</td>
+						<td>@entry.Description</td>
+						<td>
+						@if (@entry.Photo != null)
+						{
+							<img src="data:image/jpeg;base64,@Convert.ToBase64String(entry.Photo)"
+								 alt="Photo"
+								 style="max-width: 150px; height: auto;"
+								 class="photo-thumbnail" />
+						}
+						else
+						{
+							<p>No photo available</p>
+						}
+						</td>
+
+					<td><a asp-controller="EventEntries" asp-action="Edit" asp-route-id="@entry.Id" class="btn btn-primary btn-sm">Edit </a></td>
+					<td><a asp-controller="EventEntries" asp-action="Detail" asp-route-id="@entry.Id" class="btn btn-primary btn-sm">Detail </a></td>
+					<td><a asp-controller="EventEntries" asp-action="Delete" asp-route-id="@entry.Id" class="btn btn-danger btn-sm">Delete </a></td>
+					</tr>
+				}
+			</tbody>
+
+	</table>
+
+</div>
+
+<script>
+	document.getElementById('updateChart').addEventListener('click', () => {
+		const startDate = document.getElementById('startDate').value;
+		const endDate = document.getElementById('endDate').value;
+
+		if (startDate && endDate) {
+			const rows = document.querySelectorAll('table tbody tr');
+			rows.forEach(row => {
+				const rowDate = row.getAttribute('data-date');
+				if (rowDate) {
+					const rowDateObj = new Date(rowDate);
+					const startDateObj = new Date(startDate);
+					const endDateObj = new Date(endDate);
+
+					if (rowDateObj >= startDateObj && rowDateObj <= endDateObj) {
+						row.style.display = ''; // Zobrazit řádek
+					} else {
+						row.style.display = 'none'; // Skrýt řádek
+					}
+				}
+			});
+		} else {
+			alert('Please select both start and end dates.');
+		}
+	});
+</script>
+
+ *@

@@ -7,24 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 namespace Diary.Controllers
 {
 	[ApiController]
-    [Route("api/[Controller]")]
-    public class RecordApi : ControllerBase
+	[Route("api/RecordApi")]
+	public class RecordApi : ControllerBase
 	{
-		private RecordService _recordServiceApi;
-		
+		private readonly RecordService _recordServiceApi;
+		private readonly ICurrentUserService _currentUserService;
 
-		public RecordApi(RecordService recordServiceApi)
+		public RecordApi(RecordService recordServiceApi, ICurrentUserService currentUserService)
 		{
 			_recordServiceApi = recordServiceApi;
+			_currentUserService = currentUserService;
 		}
 
-        [HttpGet] 
-        public ActionResult Index()
-        {
-            var records = _recordServiceApi.GetAllRecords();
-            return Ok(records);  
-        }
+		[HttpGet]
+		public ActionResult Index()
+		{
+			//// Získání aktuálního uživatelského ID
+			//var userId = _currentUserService.UserId;
 
-    }
+			//// Filtrování záznamů podle UserId
+			var records = _recordServiceApi.GetAllRecords();
+			//							   .Where(r => r.UserId == userId);
+
+			return Ok(records);
+		}
+	}
+
 }
 

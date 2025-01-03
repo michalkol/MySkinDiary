@@ -1,0 +1,97 @@
+﻿@using Diary.DTO;
+@model RecordDTO;
+
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="text-right text-primary">Record Details</h1>
+        </div>
+    </div>
+
+    <!-- Photo Section -->
+    <div class="row mb-4">
+        <div class="col-md-4 offset-md-4 text-center">
+            @if (Model.Photo != null)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Photo)" alt="Photo" class="img-fluid photo-thumbnail  shadow-sm rounded-circle"  style="max-width: 200px;">
+            }
+            else
+            {
+                <p>No photo available</p>
+            }
+        </div>
+    </div>
+
+    <!-- Record Details -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    General Information
+                </div>
+                <div class="card-body">
+                    <p><strong>Created:</strong> @Model.Created.ToString("dd.MM.yyyy")</p>
+                    <p><strong>Physical State:</strong> @Model.PhysicalState</p>
+                    <p><strong>Mental State:</strong> @Model.MentalState</p>
+                    <p><strong>Digesting:</strong> @Model.Digesting</p>
+                    <p><strong>Menstruation:</strong> @Model.Menstruation</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Description
+                </div>
+                <div class="card-body">
+                    <p><strong>Physical Description:</strong> @Model.PhysicalDesc</p>
+                    <p><strong>Mental Description:</strong> @Model.MentalDesc</p>
+                    <p><strong>Skin State Description:</strong> @Model.SkinStateDesc</p>
+                    <p><strong>Diet Description:</strong> @Model.DietDesc</p>
+                    <p><strong>Medication Description:</strong> @Model.MedicationDesc</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional States -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Skin States
+                </div>
+                <div class="card-body">
+                    <p><strong>Skin redness:</strong> @Model.SkinState1</p>
+                    <p><strong>Skin itchiness:</strong> @Model.SkinState2</p>
+                    <p><strong>Skin swelling:</strong> @Model.SkinState3</p>
+                    <p><strong>Skin dryness:</strong> @Model.SkinState4</p>
+                    <p><strong>Skin wetting:</strong> @Model.SkinState5</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Activities
+                </div>
+                <div class="card-body">
+                    <p><strong>Sport Activity:</strong> @Model.IsSportActivity</p>
+                    <p><strong>Sport Description:</strong> @Model.SportActivityDesc</p>
+                    <p><strong>Sex Activity:</strong> @Model.IsSexActivity</p>
+                    <p><strong>Alcohol Consumption:</strong> @Model.IsAlcohol</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

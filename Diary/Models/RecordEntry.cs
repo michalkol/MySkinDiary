@@ -8,6 +8,8 @@ namespace Diary.Models
 		[Key]
 		public int Id { get; set; }
 		[Required]
+		public string UserId { get; set; }  
+		[Required]
 		public int PhysicalState { get; set; }
 		
 		public string PhysicalDesc { get; set; } = string.Empty;

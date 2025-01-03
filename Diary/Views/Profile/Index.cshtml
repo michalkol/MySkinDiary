@@ -1,0 +1,58 @@
+﻿@model Diary.ViewModel.UserProfileViewModel
+
+    <!-- Nadpis a tlačítko pro úpravu -->
+    <div class="row mb-4">
+        <div class="col-6">
+            <a class="btn btn-primary shadow-sm" asp-controller="Profile" asp-action="Edit">
+                Edit your profile
+            </a>
+        </div>
+        <div class="col-6 text-end">
+        <h2 class="text-primary">Personal Information</h2>
+        </div>
+    </div>
+
+    <!-- Úvodní text -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info" role="alert">
+                <p class="mb-0">
+                    This page is dedicated to managing your personal profile.
+                    <strong>
+                        Note: All shown data are only for development purposes and do not represent any meaningful value.
+                    </strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Karta s uživatelskými informacemi -->
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body d-flex align-items-center">
+            <!-- Profilová fotka -->
+            <div class="me-4">
+                @if (Model.Photo != null)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Photo)"
+                         alt="User Photo"
+                         style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;"
+                         class="shadow-sm" />
+                }
+                else
+                {
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background-color: #e9ecef;"
+                         class="d-flex align-items-center justify-content-center shadow-sm">
+                        <i class="bi bi-person-fill text-secondary" style="font-size: 60px;"></i>
+                    </div>
+                }
+            </div>
+
+            <!-- Uživatelská data -->
+            <div>
+                <h5 class="card-title mb-3 text-primary">@Model.UserName</h5>
+                <p class="mb-2"><strong>First Name:</strong> @Model.FirstName</p>
+                <p class="mb-2"><strong>Last Name:</strong> @Model.LastName</p>
+                <p class="mb-0"><strong>Email:</strong> <a href="@Model.Email">@Model.Email</a></p>
+            </div>
+        </div>
+    </div>

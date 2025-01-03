@@ -1,0 +1,73 @@
+﻿@using Diary.ViewModel;
+@model UserProfileViewModel;
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			<div class ="card">
+				<div class="card-header bg-primary text-white">
+					<h2>Edit your profile</h2>
+				</div>
+				<div class=" card-body">
+					<form asp-action="Edit" method="post" enctype="multipart/form-data">
+						
+						<input type="hidden" asp-for="Photo" />
+
+						
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="UserName" class="form-label">User name</label>
+							<input asp-for="UserName" class="form-control" id="UserName"
+								   placeholder="Enter your first name" autocomplete="off" />
+							<span asp-validation-for="UserName" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="FirstName" class="form-label">First name</label>
+							<input asp-for="FirstName" class="form-control" id="FirstName"
+								   placeholder="Enter your first name" autocomplete="off" />
+							<span asp-validation-for="FirstName" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="LastName" class="form-label">Last name</label>
+							<input asp-for="LastName" class="form-control" id="LastName"
+								   placeholder="Enter your last name" autocomplete="off" />
+							<span asp-validation-for="LastName" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label asp-for="Email" class="form-label">Email</label>
+							<input asp-for="Email" class="form-control" id="Email"
+								   placeholder="Enter your last name" autocomplete="off" />
+							<span asp-validation-for="Email" class="text-secondary"></span>
+						</div>
+
+						<div class="form-group mb-3" style="margin: 10px; text-align: center;">
+							<label for="Password" class="form-label">Password (leave empty if you don't want to change it)</label>
+							<input type="password" name="Password" class="form-control" id="Password"
+								   placeholder="Enter password" autocomplete="off" />
+							<span asp-validation-for="Password"></span>
+						</div>
+
+						<div class="input-group mb-3" style="margin: 10px; text-align: center;">
+							<label for="inputGroupFile04" class="form-label">Upload your profile photo</label>
+							<div class="input-group">
+								<input type="file" name="photoFile" asp-for="Photo" class="form-control" id="inputGroupFile04">
+							</div>
+							<span asp-validation-for="Photo"></span>
+						</div>
+
+						<div class="d-flex justify-content-between" style="margin: 10px">
+							<button type="submit" class="btn btn-primary">Edit</button>
+							<a asp-controller="Profile" asp-action="Index" class="btn btn-secondary">Cancel</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

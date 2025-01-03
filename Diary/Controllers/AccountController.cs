@@ -1,49 +1,163 @@
-﻿using Diary.DTO;
-using Diary.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Diary.Models;
+using Diary.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Diary.Models;
+using Diary.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Diary.Controllers
+namespace UsersApp.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
-            this.userManager = userManager;
             this.signInManager = signInManager;
+            this.userManager = userManager;
         }
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+
+        public IActionResult Login()
         {
-            LoginDTO loginDTO = new LoginDTO();
-            loginDTO.ReturnUrl = returnUrl;
-            return View(loginDTO);
+            return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                AppUser appUser = await userManager.FindByNameAsync(loginDTO.UserName);
-                if (appUser != null)
+                var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
                 {
-                    Microsoft.AspNetCore.Identity.SignInResult signInResult = await signInManager.PasswordSignInAsync(appUser, loginDTO.Password, false, false);
-                    if (signInResult.Succeeded)
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Email or password is incorrect.");
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            var emailCheck = await userManager.FindByEmailAsync(model.Email);
+            if (emailCheck != null) {
+                Console.WriteLine("Account with specific email already exists.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                AppUser users = new AppUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    //UserName = model.Email,
+                };
+
+                var result = await userManager.CreateAsync(users, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(users, "User");
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
                     {
-                        return Redirect(loginDTO.ReturnUrl ?? "/");
+                        ModelState.AddModelError("", error.Description);
+                    }
+
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
+        public IActionResult VerifyEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Something is wrong!");
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("ChangePassword", "Account", new { username = user.UserName });
+                }
+            }
+            return View(model);
+        }
+
+        public IActionResult ChangePassword(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("VerifyEmail", "Account");
+            }
+            return View(new ChangePasswordViewModel { Email = username });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.Email);
+                if (user != null)
+                {
+                    var result = await userManager.RemovePasswordAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await userManager.AddPasswordAsync(user, model.NewPassword);
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+
+                        return View(model);
                     }
                 }
-                ModelState.AddModelError("", "Login failed - check username or password");
+                else
+                {
+                    ModelState.AddModelError("", "Email not found!");
+                    return View(model);
+                }
             }
-            return View(loginDTO);
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong. try again.");
+                return View(model);
+            }
         }
 
         public async Task<IActionResult> Logout()

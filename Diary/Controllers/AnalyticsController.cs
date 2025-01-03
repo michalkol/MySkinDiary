@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Diary.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	public class AnalyticsController : Controller
 	{
 		private RecordServiceApi _recordServiceApi;

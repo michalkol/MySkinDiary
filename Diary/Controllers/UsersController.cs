@@ -36,7 +36,10 @@ namespace Diary.Controllers
                 AppUser appUser = new AppUser()
                 {
                     Email = newUser.Email,
-                    UserName = newUser.Name,
+                    UserName = newUser.UserName,
+                    FirstName = newUser.FirstName,
+                    LastName = newUser.LastName,
+        
                 };
                 IdentityResult identityResult = await userManager.CreateAsync(appUser, newUser.Password);
                 if (identityResult.Succeeded)

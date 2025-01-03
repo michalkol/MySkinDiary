@@ -20,3 +20,171 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#charts-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%; /* Zajistí dostatek prostoru pro oba grafy */
+}
+    #charts-container .col-md-6 {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+#charts-container canvas {
+        flex: 1;
+        max-width: 45%; /* Každý graf zabere až 45 % dostupné šíøky */
+        background-color: white; /* Pøidání barvy pozadí pro testování */
+}
+
+.chart-card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+.chart-card .card-body {
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        height: 500px;
+}
+
+
+/* Global background */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #212529;
+}
+
+.navbar-brand {
+    color: #79D7BE !important;
+}
+
+.navbar .nav-link {
+    color: #79D7BE;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+    .navbar .nav-link:hover {
+        color: #198754;
+    }
+
+/* Footer styles */
+.footer {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+/* Buttons and cards */
+.btn {
+    border-radius: 8px;
+}
+
+/*.card {
+    border: none;
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}*/
+/*
+.input-group {
+    max-width: 300px;
+}*/
+
+/* Table hover effect */
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.table-responsive {
+    /*overflow-y: auto;*/
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+table.table {
+    font-size: 0.9em;
+    flex-grow: 1;
+}
+
+/* Kalendáø obalený do karty */
+#calendar {
+    background-color: #ffffff;
+    border: none !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* FullCalendar Bootstrap tlaèítka */
+.fc-button {
+    border-radius: 8px !important;
+    color: #fff !important;
+    background-color: #79D7BE !important;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
+
+    .fc-button:hover {
+        background-color: #79D7BE !important;
+    }
+
+/* Titulek kalendáøe */
+.fc-toolbar-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #79D7BE;
+    border: none !important;
+}
+
+/* Tlaèítka navigace */
+.fc-prev-button, .fc-next-button, .fc-today-button {
+    background-color: #79D7BE !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+    .fc-prev-button:hover, .fc-next-button:hover, .fc-today-button:hover {
+        background-color: #79D7BE !important;
+    }
+
+/* Události */
+.fc-event {
+    background-color: #79D7BE !important;
+    color: #ffffff;
+    border: none !important;
+    border-radius: 4px;
+    /* Zobrazení dnù */
+    .fc-daygrid-day;
+{
+}
+
+.fc-day-today {
+    background-color: #79D7BE ;
+    border-radius: 8px;
+}
+
+/* Nadpisy dnù */
+.fc-col-header-cell-cushion {
+    color: #79D7BE;
+    font-weight: 600;
+}
+
+

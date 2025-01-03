@@ -1,8 +1,8 @@
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": { //internet information servicies
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true, //Nastavení nutnosti loginu
+    "windowsAuthentication": true,
+    "anonymousAuthentication": false, //Nastavení nutnosti loginu
     "iisExpress": {
       "applicationUrl": "http://localhost:48824",
       "sslPort": 44325

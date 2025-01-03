@@ -20,14 +20,21 @@ builder.Services.AddControllersWithViews();
 
 // Napojen� datab�ze pomoc� connection stringu v appsettings.json
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //Služba pro připojení databáze
+//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //Služba pro připojení databáze
 
 
-//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MonsterASP")));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MonsterASP")));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); //DI pro Identity
-builder.Services.AddScoped<RecordService>(); //Servisní třída
+
+//Servisní třídy
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<RecordService>(); 
 builder.Services.AddScoped<RecordServiceApi>();
+builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<AvatarService>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequiredLength = 5;
